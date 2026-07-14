@@ -18,6 +18,12 @@ jobs:
         uses: actions/checkout@v7.0.0
       - name: step-3
         run: | 
-          pwd
+
+          echo `pwd` >> myfile.txt
           ls -ltr
           hostname
+      - name: upload single file
+        uses: actions/upload-artifact@v3
+        with:
+          name: myfile.txt
+          path: ./myfile.txt
