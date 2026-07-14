@@ -5,28 +5,19 @@ on:
     branches: [main]
 
 jobs: 
-  check-python:
+  job1:
+    name: JOB1-
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up python env
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.10
-
-      - name: Install python deps
         run: |
-          python -m pip install --upgrade pip
-
-  check-node:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
-
-      - name: setup nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-verison: 18
+          pwd
+          ls -ltr
+          hostname
+      - name: step2 - checkout
+        uses: actions/checkout@v7.0.0
+      - name: step-3
+        run: | 
+          pwd
+          ls -ltr
+          hostname
