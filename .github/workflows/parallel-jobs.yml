@@ -86,6 +86,27 @@ jobs:
           echo "Contents of myfile.txt:"
           cat myfile.txt
 
+  job3: 
+    name: Job3 - Download Directory Artifact
+    needs: job1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pre-Download Check
+        run: |
+          pwd
+          ls -ltr
+
+      - name: Download Directory Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts_directory
+
+      - name: Verify Downloaded Directory
+        run: |
+          echo "Downloaded contents:"
+          ls -R artifacts/
+
 
 
 
