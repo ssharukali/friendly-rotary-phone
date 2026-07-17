@@ -77,7 +77,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: single_file
-
       - name: Verify Downloaded Files
         run: |
           echo "Downloaded contents:"
@@ -122,7 +121,7 @@ jobs:
         - name: Download single file Artifact
           uses: actions/download-artifact@v4
           with:
-            name: myfile.txt
+            name: single_file
             path: single_file
         - name: Download directory Artifact
           uses: actions/download-artifact@v4
