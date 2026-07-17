@@ -24,7 +24,7 @@ jobs:
           echo `ls -ltr` >> artifacts/lists.txt
           echo `hostname` >> artifacts/hostname.txt
           hostname
-      - name: upload single file
+      - name: single_file
         uses: actions/upload-artifact@v5.0.0
         with:
           name: myfile.txt
@@ -49,3 +49,19 @@ jobs:
             ./myfile.txt
             ./artifacts/lists.txt
             !**/hostname.txt
+  job2:
+    name: job2
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out artifacts_directory
+        run: |
+          pwd
+          ls -ltr
+      - name: Download single file artifact
+        uses: actions/download-artifact@v5.0.0
+        with: 
+          name: single_file
+      - name: checking dir post download
+        run : |
+          pwd
+          ls -ltr
