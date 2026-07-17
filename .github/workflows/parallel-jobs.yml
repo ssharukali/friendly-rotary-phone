@@ -1,67 +1,168 @@
 name: Dependency Checker
 
-on: 
+on:
   push:
-    branches: [main]
+    branches:
+      - main
 
-jobs: 
+jobs:
   job1:
-    name: JOB1-
+    name: Job1 - Create Artifacts
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout repo
+      - name: Initial Workspace Check
         run: |
           pwd
           ls -ltr
           hostname
-      - name: step2 - checkout
-        uses: actions/checkout@v7.0.0
-      - name: step-3
-        run: | 
 
-          echo `pwd` >> myfile.txt
-          mkdir artifacts
-          echo `ls -ltr` >> artifacts/lists.txt
-          echo `hostname` >> artifacts/hostname.txt
-          hostname
-      - name: single_file
-        uses: actions/upload-artifact@v5.0.0
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Files
+        run: |
+          echo "$(pwd)" > myfile.txt
+
+          mkdir -p artifacts
+
+          ls -ltr > artifacts/lists.txt
+          hostname > artifacts/hostname.txt
+
+      - name: Verify Created Files
+        run: |
+          ls -R
+
+      - name: Upload Single File
+        uses: actions/upload-artifact@v4
         with:
-          name: myfile.txt
-          path: ./myfile.txt
-      - name: upload artifacts
-        uses: actions/upload-artifact@v5.0.0
+          name: single_file
+          path: myfile.txt
+
+      - name: Upload Directory Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts_directory
-          path: ./artifacts
-      - name: upload via multiple paths
-        uses: actions/upload-artifact@v5.0.0
+          path: artifacts/
+
+      - name: Upload Multiple Paths
+        uses: actions/upload-artifact@v4
         with:
           name: multiple_paths
           path: |
-            ./myfile.txt
-            ./artifacts
-      - name: upload via multiple paths with exclusions
-        uses: actions/upload-artifact@v5.0.0
+            myfile.txt
+            artifacts/
+
+      - name: Upload Multiple Paths With Exclusions
+        uses: actions/upload-artifact@v4
         with:
           name: multiple_paths_with_exclusions
           path: |
-            ./myfile.txt
-            ./artifacts/lists.txt
+            myfile.txt
+            artifacts/lists.txt
             !**/hostname.txt
+
   job2:
-    name: job2
+    name: Job2 - Download Artifacts
+    needs: job1
     runs-on: ubuntu-latest
+
     steps:
-      - name: checking out artifacts_directory
+      - name: Pre-Download Check
         run: |
           pwd
           ls -ltr
-      - name: Download single file artifact
-        uses: actions/download-artifact@v5.0.0
-        with: 
+
+      - name: Download Single File Artifact
+        uses: actions/download-artifact@v4
+        with:
           name: single_file
-      - name: checking dir post download
-        run : |
-          pwd
-          ls -ltr
+
+      - name: Verify Downloaded Files
+        run: |
+          echo "Downloaded contents:"
+          ls -R
+
+          echo "Contents of myfile.txt:"
+          cat myfile.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: Dependency Checker
+
+# on: 
+#   push:
+#     branches: [main]
+
+# jobs: 
+#   job1:
+#     name: JOB1-
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checkout repo
+#         run: |
+#           pwd
+#           ls -ltr
+#           hostname
+#       - name: step2 - checkout
+#         uses: actions/checkout@v7.0.0
+#       - name: step-3
+#         run: | 
+
+#           echo `pwd` >> myfile.txt
+#           mkdir artifacts
+#           echo `ls -ltr` >> artifacts/lists.txt
+#           echo `hostname` >> artifacts/hostname.txt
+#           hostname
+#       - name: single_file
+#         uses: actions/upload-artifact@v5.0.0
+#         with:
+#           name: myfile.txt
+#           path: ./myfile.txt
+#       - name: upload artifacts
+#         uses: actions/upload-artifact@v5.0.0
+#         with:
+#           name: artifacts_directory
+#           path: ./artifacts
+#       - name: upload via multiple paths
+#         uses: actions/upload-artifact@v5.0.0
+#         with:
+#           name: multiple_paths
+#           path: |
+#             ./myfile.txt
+#             ./artifacts
+#       - name: upload via multiple paths with exclusions
+#         uses: actions/upload-artifact@v5.0.0
+#         with:
+#           name: multiple_paths_with_exclusions
+#           path: |
+#             ./myfile.txt
+#             ./artifacts/lists.txt
+#             !**/hostname.txt
+#   job2:
+#     name: job2
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checking out artifacts_directory
+#         run: |
+#           pwd
+#           ls -ltr
+#       - name: Download single file artifact
+#         uses: actions/download-artifact@v5.0.0
+#         with: 
+#           name: myfile.txt
+#       - name: checking dir post download
+#         run : |
+#           pwd
+#           ls -ltr
+
