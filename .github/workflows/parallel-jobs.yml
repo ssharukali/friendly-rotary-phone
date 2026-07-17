@@ -106,6 +106,36 @@ jobs:
         run: |
           echo "Downloaded contents:"
           ls 
+  job4:
+    name: Job4
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+        - name: Creating directories
+          run: |
+            mkdir -p single_file
+            mkdir -p download_dir
+        - name: Pre-Download Check
+          run: |
+            pwd
+            ls -ltr
+        - name: Download single file Artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: myfile.txt
+            path: single_file
+        - name: Download directory Artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: artifacts_directory
+            path: download_dir
+        - name: Verify Downloaded Multiple Paths
+          run: |
+            echo "Downloaded contents:"
+            ls -ltr single_file
+            ls -ltr download_dir
+
+  
 
 
 
