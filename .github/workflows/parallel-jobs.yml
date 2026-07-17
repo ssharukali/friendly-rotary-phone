@@ -105,7 +105,7 @@ jobs:
       - name: Verify Downloaded Directory
         run: |
           echo "Downloaded contents:"
-          ls -R artifacts/
+          ls 
 
 
 
