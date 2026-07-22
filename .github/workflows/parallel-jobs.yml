@@ -59,9 +59,10 @@ jobs:
       - name: Verify Downloaded Files
         run: |
           echo "Downloaded contents:"
-          ls -R
-
+          ls -ltr
           echo "Contents of myfile.txt:"
           cat myfile.txt
+      - name: PR demo for fail
+        run: exit 1
 
   
